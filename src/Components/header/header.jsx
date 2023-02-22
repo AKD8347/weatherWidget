@@ -3,9 +3,9 @@ import style from "./style.module.scss"
 
 function Header({myLocation}) {
     //определение локации по клику
-    const location = (event) => {
+    async function location() {
         const url = 'http://ipwho.is?output=json&lang=ru';
-        fetch(url)
+        await fetch(url)
             .then(response => response.json())
             .then(data => {
                 //callback-функция, возвращающая данные после ответа сервера
