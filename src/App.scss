@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 100vh;
+  background-color: #282c34;
+  padding: 40px 60px;
+  box-sizing: border-box;
+}
+
+.container {
+
+}
