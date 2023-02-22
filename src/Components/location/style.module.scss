@@ -16,5 +16,13 @@
     font-weight: 700;
     padding: 0;
     margin: 0;
+
+    span {
+      display: block;
+      position: relative;
+      float: left;
+      width: 100%;
+      text-align: center;
+    }
   }
 }

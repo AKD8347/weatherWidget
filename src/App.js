@@ -8,11 +8,14 @@ function App() {
     const [myCity, setCity] = useState('');
     //заводим состояние для региона
     const [myRegion, setRegion] = useState('');
+    //заводим состояние для страны
+    const [myCountry, setCountry] = useState('');
     //меняем значение, в зависимости от ответа сервера
     const myLocation = (data) => {
         setCity(data.city)
         setRegion(data.region)
-        // console.log(data);
+        setCountry(data.country)
+        console.log(data);
     }
 
     return (
@@ -23,6 +26,7 @@ function App() {
             <LocationCity
                 city={myCity}
                 region={myRegion}
+                country={myCountry}
             />
         </div>
     );
