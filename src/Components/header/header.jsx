@@ -1,21 +1,15 @@
 import React from "react";
 import style from "./style.module.scss"
-import {useState} from "react";
 
-function Header(props) {
-    //получаем состояние для города
-    const [myCity, setCity] = useState('');
-    //получаем состояние для региона
-    const [myRegion, setRegion] = useState('');
-
-    const myLocation = (event) => {
+function Header({myLocation}) {
+    //определение локации по клику
+    const location = (event) => {
         const url = 'http://ipwho.is?output=json&lang=ru';
         fetch(url)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
-                setCity(data.city);
-                setRegion(data.region);
+                //callback-функция, возвращающая данные после ответа сервера
+                myLocation(data);
             })
     }
 
@@ -26,12 +20,7 @@ function Header(props) {
                 <button className={style.header__submit}>Поиск</button>
             </div>
             <div className={style.header__location}>
-                { myCity === '' ?
-                    ( <h3 className={style.header__locationTitle}> </h3>)
-                    :
-                    ( <h3 className={style.header__locationTitle}>{myCity}, {myRegion} </h3>)
-                }
-                <button onClick={myLocation} className={style.header__locationSearch}>текущая локация</button>
+                <button onClick={location} className={style.header__locationSearch}>текущая локация</button>
             </div>
         </header>
     )

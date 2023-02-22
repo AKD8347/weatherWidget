@@ -1,0 +1,20 @@
+.location {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  width: 100%;
+  padding: 0 20px;
+  justify-content: center;
+
+  &__title {
+    display: block;
+    position: relative;
+    float: left;
+    color: white;
+    font-size: 44px;
+    font-weight: 700;
+    padding: 0;
+    margin: 0;
+    margin-right: 25px;
+  }
+}
