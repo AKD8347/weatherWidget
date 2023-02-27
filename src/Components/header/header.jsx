@@ -1,7 +1,7 @@
 import React from "react";
 import style from "./style.module.scss"
 
-function Header({myLocation}) {
+function Header({myLocation, myWaether}) {
 
     const key = 'd925d52adb9fbe2436832c756642ec13';
     //определение локации по клику
@@ -13,7 +13,6 @@ function Header({myLocation}) {
                 //callback-функция, возвращающая данные после ответа сервера
                 myLocation(data);
                 getWeather({
-                    city: data.city,
                     lat: data.latitude,
                     long: data.longitude,
                     key
@@ -26,7 +25,7 @@ function Header({myLocation}) {
         console.log(location)
         let lat = '45.0392674';
         let long = '38.987221'
-        const url = new URL(`https://api.openweathermap.org/data/3.0/onecall?exclude=hourly,daily`)
+        const url = new URL(`https://api.openweathermap.org/data/3.0/onecall?exclude=hourly,daily&lang=ru`)
         if (location) {
             lat = location.lat;
             long = location.long;
@@ -37,7 +36,8 @@ function Header({myLocation}) {
         await fetch(url.toString())
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
+                myWaether(data);
             })
     }
 

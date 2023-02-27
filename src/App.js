@@ -18,10 +18,15 @@ function App() {
         console.log(data);
     }
 
+    const myWeather = (data) => {
+        console.log(data);
+    }
+
     return (
         <div className="wrapper">
             <Header
                 myLocation={myLocation}
+                myWaether={myWeather}
             />
             <LocationCity
                 city={myCity}
