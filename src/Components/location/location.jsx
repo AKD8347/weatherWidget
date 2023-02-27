@@ -4,7 +4,7 @@ import style from "./style.module.scss"
 function LocationCity(props) {
     //props получаемые из родительского компонента
     const {city, region, country} = props;
-    console.log(city, region, country);
+    // console.log(city, region, country);
 
     return (
         <div className={style.location}>
