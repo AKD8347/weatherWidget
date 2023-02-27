@@ -13,7 +13,7 @@ function LocationCity(props) {
                 :
                 ( <h3 className={style.location__title}>
                     <span>{city},</span>
-                    <span>{region},</span>
+                    { region === undefined ? ( <span>   </span>  ) : ( <span>{region},</span> ) }
                     <span>{country}</span>
                   </h3>)
             }
