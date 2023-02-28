@@ -8,11 +8,6 @@ function App() {
     const [myCity, setCity] = useState('');
 
     //меняем значение, в зависимости от ответа сервера
-    // const myLocation = (data) => {
-    //     console.log(data)
-    //     setCity(data)
-    // }
-    //меняем значение, в зависимости от ответа сервера
     const myWeather = (data) => {
         // console.log(data)
         setCity(data)
@@ -21,7 +16,6 @@ function App() {
     return (
         <div className="wrapper">
             <Header
-                // myLocation={myLocation}
                 myWaether={myWeather}
             />
             <LocationCity

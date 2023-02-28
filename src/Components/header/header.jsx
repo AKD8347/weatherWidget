@@ -2,7 +2,7 @@ import React from "react";
 import {useState} from "react";
 import style from "./style.module.scss"
 
-function Header({myLocation, myWaether}) {
+function Header({myWaether}) {
     //api.openweathermap.org
     const keyWeather = 'd925d52adb9fbe2436832c756642ec13';
     //api.opencagedata.com
