@@ -10,21 +10,17 @@ function Header({myLocation, myWaether}) {
     // действия при изменении города в поле ввода
     const [city, setCity] = useState('');
 
-    //определение локации пользователя по клику
+    //определение локации пользователя через сервис ipwho.is
     async function getLocation() {
         const url = 'http://ipwho.is?output=json&lang=ru';
-
         await fetch(url)
             .then(response => response.json())
             .then(data => {
                 //callback-функция, возвращающая данные после ответа сервера
-                console.log(data);
-                myLocation({
+                getWeather({
                     city: data.city,
                     region: data.region,
-                    country: data.country
-                });
-                getWeather({
+                    country: data.country,
                     lat: data.latitude,
                     long: data.longitude,
                     keyWeather
@@ -32,38 +28,39 @@ function Header({myLocation, myWaether}) {
             })
     }
 
+    //запрос на сервис api.opencagedata.com
+    async function getGeo(url) {
+        await fetch(url.toString())
+            .then(response => response.json())
+            .then(data => {
+                // console.log(data);
+                getWeather({
+                    city: data.results[0].components.city,
+                    region: data.results[0].components.region,
+                    country: data.results[0].components.country,
+                    lat: data.results[0].geometry.lat,
+                    long: data.results[0].geometry.lng,
+                    keyWeather
+                })
+            }).catch(error => {
+                console.log(error);
+            })
+    }
+
     //поиск по городам
-    async function searchCity(event) {
+    function searchCity(event) {
         let val = event.target.value;
         const url = new URL(`https://api.opencagedata.com/geocode/v1/json?q=${val}&key=${keyGeodata}&language=ru&pretty=1`);
         if (event.key === 'Enter') {
-            await fetch(url.toString())
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    myLocation({
-                        city: data.results[0].components.city,
-                        region: data.results[0].components.region,
-                        country: data.results[0].components.country
-                    });
-                })
+           getGeo(url);
         }
     }
 
     //по клику на кнопку поиска
-    async function submitCity() {
-        console.log(city);
+    function submitCity() {
+        // console.log(city);
         const url = new URL(`https://api.opencagedata.com/geocode/v1/json?q=${city}&key=${keyGeodata}&language=ru&pretty=1`);
-        await fetch(url.toString())
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                myLocation({
-                    city: data.results[0].components.city,
-                    region: data.results[0].components.region,
-                    country: data.results[0].components.country
-                });
-            })
+        getGeo(url);
     }
 
     //получение погоды
@@ -71,19 +68,35 @@ function Header({myLocation, myWaether}) {
         // console.log(location)
         let lat = '45.0392674';
         let long = '38.987221'
-        const url = new URL(`https://api.openweathermap.org/data/3.0/onecall?exclude=hourly,daily&lang=ru`)
+        const url = new URL(`https://api.openweathermap.org/data/2.5/weather?&units=metric`);
+
         if (location) {
             lat = location.lat;
             long = location.long;
         }
         url.searchParams.append('lat', lat);
         url.searchParams.append('lon', long);
-        url.searchParams.append('appid', keyWeather);
+        url.searchParams.append('lang', 'ru')
+        url.searchParams.append('APPID', keyWeather);
         await fetch(url.toString())
             .then(response => response.json())
             .then(data => {
                 // console.log(data);
-                myWaether(data);
+                if (location) {
+                    myWaether({
+                        city: location.city,
+                        region: location.region,
+                        country: location.country,
+                        data: data
+                    });
+                } else {
+                    myWaether({
+                        city: 'Краснодар',
+                        region: 'Краснодарский край',
+                        country: 'Россия',
+                        data: data
+                    });
+                }
             })
     }
 

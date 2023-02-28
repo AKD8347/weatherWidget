@@ -4,34 +4,28 @@ import Header from "./Components/header/header";
 import LocationCity from "./Components/location/location";
 
 function App() {
-    //заводим состояние для города
+    //заводим состояние для локации
     const [myCity, setCity] = useState('');
-    //заводим состояние для региона
-    const [myRegion, setRegion] = useState('');
-    //заводим состояние для страны
-    const [myCountry, setCountry] = useState('');
-    //меняем значение, в зависимости от ответа сервера
-    const myLocation = (data) => {
-        setCity(data.city)
-        setRegion(data.region)
-        setCountry(data.country)
-        console.log(data);
-    }
 
+    //меняем значение, в зависимости от ответа сервера
+    // const myLocation = (data) => {
+    //     console.log(data)
+    //     setCity(data)
+    // }
+    //меняем значение, в зависимости от ответа сервера
     const myWeather = (data) => {
-        console.log(data);
+        // console.log(data)
+        setCity(data)
     }
 
     return (
         <div className="wrapper">
             <Header
-                myLocation={myLocation}
+                // myLocation={myLocation}
                 myWaether={myWeather}
             />
             <LocationCity
-                city={myCity}
-                region={myRegion}
-                country={myCountry}
+                data={myCity}
             />
         </div>
     );
