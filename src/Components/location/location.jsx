@@ -5,10 +5,11 @@ import style from "./style.module.scss";
 function LocationCity(props) {
     //props получаемые из родительского компонента
     const {data} = props;
+    console.log(data)
     //получаем иконку погоды
     let iconUrl;
     if(data) {
-        iconUrl = new URL(`http://openweathermap.org/img/wn/${data.data.weather[0].icon}.png`);
+        iconUrl = new URL(`http://openweathermap.org/img/wn/${data.data.list[0].weather[0].icon}.png`);
     }
     //nix timestamp в временной формат
     function getTime(time){
@@ -33,30 +34,34 @@ function LocationCity(props) {
                         </h3>
                         <div className={style.location__weather}>
                             <div className={style.location__main}>
-                                <span className={style.location__temp}>{Math.round(data.data.main.temp)} &deg;</span>
+                                <span className={style.location__temp}>
+                                    {Math.round(data.data.list[0].main.temp)}
+
+                                    &deg;
+                                </span>
                                 <span className={style.location__icon}>
-                                    <img src={iconUrl} alt={data.data.weather[0].description} />
+                                    <img src={iconUrl} alt={data.data.list[0].weather[0].description} />
                                 </span>
                             </div>
                             <div className={style.location__details}>
-                                <span className={style.location__item}>{data.data.weather[0].description}</span>
+                                <span className={style.location__item}>{data.data.list[0].weather[0].description}</span>
                                 <span className={style.location__item}>Ощущается как:
-                                    <span>{Math.round(data.data.main.feels_like)} &deg;</span>
+                                    <span>{Math.round(data.data.list[0].main.feels_like)} &deg;</span>
                                 </span>
                                 <span className={style.location__item}>влажность:
-                                    <span>{data.data.main.humidity} %</span>
+                                    <span>{data.data.list[0].main.humidity} %</span>
                                 </span>
                                 <span className={style.location__item}>атмосферное давление(inHg):
-                                    <span>{data.data.main.pressure}</span>
+                                    <span>{data.data.list[0].main.pressure}</span>
                                 </span>
                                 <span className={style.location__item}>скорость ветра:
-                                    <span>{data.data.wind.speed} м/с</span>
+                                    <span>{data.data.list[0].wind.speed} м/с</span>
                                 </span>
                                 <span className={style.location__item}>восхода:
-                                    <span>{getTime(data.data.sys.sunrise)}</span>
+                                    <span>{getTime(data.data.city.sunrise)}</span>
                                 </span>
                                 <span className={style.location__item}>закат:
-                                    <span>{getTime(data.data.sys.sunset)}</span>
+                                    <span>{getTime(data.data.city.sunset)}</span>
                                 </span>
                             </div>
 

@@ -7,10 +7,8 @@ function Header({myWaether}) {
     const keyWeather = 'd925d52adb9fbe2436832c756642ec13';
     //api.opencagedata.com
     const keyGeodata = '03ffaf043c004b47a1958e57654e54ca';
-
     // действия при изменении города в поле ввода
     const [city, setCity] = useState('');
-
     //определение локации пользователя через сервис ipwho.is
     async function getLocation() {
         const url = 'http://ipwho.is?output=json&lang=ru';
@@ -68,10 +66,11 @@ function Header({myWaether}) {
 
     //получение погоды
     async function getWeather(location) {
-        // console.log(location)
+        console.log(location)
         let lat = '59.9387';
         let long = '30.3162'
-        const url = new URL(`https://api.openweathermap.org/data/2.5/weather?&units=metric`);
+        // const url = new URL(`https://api.openweathermap.org/data/2.5/weather?&units=metric`);
+        const url = new URL(`https://api.openweathermap.org/data/2.5/forecast?&units=metric&&exclude=daily`);
 
         if (location) {
             lat = location.lat;
@@ -104,42 +103,6 @@ function Header({myWaether}) {
                 console.log(error);
             })
     }
-
-    //получение погоды за неделю
-    // async function getWeekWeather(location) {
-    //     // console.log(location)
-    //     let lat = '59.9387';
-    //     let long = '30.3162'
-    //     const url = new URL(`https://api.openweathermap.org/data/2.5/forecast?&units=metric&&exclude=daily`);
-    //
-    //     if (!location) {
-    //         lat = location.lat;
-    //         long = location.long;
-    //     }
-    //     url.searchParams.append('lat', lat);
-    //     url.searchParams.append('lon', long);
-    //     url.searchParams.append('lang', 'ru')
-    //     url.searchParams.append('APPID', keyWeather);
-    //     await fetch(url.toString())
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             if (location) {
-    //                 weekWeather({
-    //                     city: location.city,
-    //                     region: location.region,
-    //                     country: location.country,
-    //                     data: data
-    //                 });
-    //             } else {
-    //                 weekWeather({
-    //                     city: 'Санкт-Петербург',
-    //                     region: 'Северо-Западный федеральный округ',
-    //                     country: 'Россия',
-    //                     data: data
-    //                 });
-    //             }
-    //         })
-    // }
 
     return (
         <header className={style.header}>
