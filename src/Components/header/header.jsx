@@ -1,6 +1,8 @@
 import React from "react";
 import {useState} from "react";
 import style from "./style.module.scss"
+//переменная для
+let currentLocation = null;
 
 function Header({myWaether}) {
     //api.openweathermap.org
@@ -9,23 +11,29 @@ function Header({myWaether}) {
     const keyGeodata = '03ffaf043c004b47a1958e57654e54ca';
     // действия при изменении города в поле ввода
     const [city, setCity] = useState('');
+    // действие для отображения кнопок
+    const [isShowWeatherBtn, setIsShowWeatherBtn] = useState(false);
     //определение локации пользователя через сервис ipwho.is
     async function getLocation() {
         const url = 'http://ipwho.is?output=json&lang=ru';
+        setCity('');
         await fetch(url)
             .then(response => response.json())
             .then(data => {
                 //callback-функция, возвращающая данные после ответа сервера
-                getWeather({
+                currentLocation = {
                     city: data.city,
                     region: data.region,
                     country: data.country,
                     lat: data.latitude,
                     long: data.longitude,
                     keyWeather
-                })
+                }
+                getWeather(false)
+                setIsShowWeatherBtn(true);
             }).catch(error => {
                 console.log(error);
+                setIsShowWeatherBtn(false);
             })
     }
 
@@ -34,16 +42,16 @@ function Header({myWaether}) {
         await fetch(url.toString())
             .then(response => response.json())
             .then(data => {
-                // console.log(data);
-                getWeather({
-                    city: data.results[0].components.city,
-                    region: data.results[0].components.region,
-                    country: data.results[0].components.country,
-                    lat: data.results[0].geometry.lat,
-                    long: data.results[0].geometry.lng,
-                    keyWeather
-                })
+                const locationInfo = data.results[0];
 
+                currentLocation = {
+                    city: locationInfo.components.city,
+                    region: locationInfo.components.region,
+                    country: locationInfo.components.country,
+                    lat: locationInfo.geometry.lat,
+                    long: locationInfo.geometry.lng,
+                };
+                getWeather(false)
             }).catch(error => {
                 console.log(error);
             })
@@ -55,6 +63,7 @@ function Header({myWaether}) {
         const url = new URL(`https://api.opencagedata.com/geocode/v1/json?q=${val}&key=${keyGeodata}&language=ru&pretty=1`);
         if (event.key === 'Enter') {
             getGeo(url);
+            setIsShowWeatherBtn(true);
         }
     }
 
@@ -62,19 +71,19 @@ function Header({myWaether}) {
     function submitCity() {
         const url = new URL(`https://api.opencagedata.com/geocode/v1/json?q=${city}&key=${keyGeodata}&language=ru&pretty=1`);
         getGeo(url);
+        setIsShowWeatherBtn(true);
     }
 
     //получение погоды
-    async function getWeather(location) {
-        console.log(location)
+    async function getWeather(isOneDay) {
+        // console.log(location)
         let lat = '59.9387';
         let long = '30.3162'
-        // const url = new URL(`https://api.openweathermap.org/data/2.5/weather?&units=metric`);
         const url = new URL(`https://api.openweathermap.org/data/2.5/forecast?&units=metric&&exclude=daily`);
 
-        if (location) {
-            lat = location.lat;
-            long = location.long;
+        if (currentLocation) {
+            lat = currentLocation.lat;
+            long = currentLocation.long;
         }
         url.searchParams.append('lat', lat);
         url.searchParams.append('lon', long);
@@ -84,19 +93,21 @@ function Header({myWaether}) {
             .then(response => response.json())
             .then(data => {
                 // console.log(data);
-                if (location) {
+                if (currentLocation) {
                     myWaether({
-                        city: location.city,
-                        region: location.region,
-                        country: location.country,
-                        data: data
+                        city: currentLocation.city,
+                        region: currentLocation.region,
+                        country: currentLocation.country,
+                        data,
+                        isOneDay
                     });
                 } else {
                     myWaether({
                         city: 'Санкт-Петербург',
                         region: 'Северо-Западный федеральный округ',
                         country: 'Россия',
-                        data: data
+                        data,
+                        isOneDay
                     });
                 }
             }).catch(error => {
@@ -117,9 +128,20 @@ function Header({myWaether}) {
             <div className={style.header__location}>
                 <button onClick={getLocation} className={style.header__locationSearch}>текущая локация</button>
             </div>
-            <div className={style.header__location}>
-                <button onClick={() => getWeather()} className={style.header__locationSearch}>погода</button>
-            </div>
+            {isShowWeatherBtn &&
+                (
+                    <div className={style.header__location}>
+                        <button onClick={() => getWeather(true)} className={style.header__locationSearch}>погода за день
+                        </button>
+                    </div>
+                )}
+            {isShowWeatherBtn &&
+                (
+                    <div className={style.header__location}>
+                        <button onClick={() => getWeather()} className={style.header__locationSearch}>погода за 5 дней
+                        </button>
+                    </div>
+                )}
         </header>
     )
 }

@@ -5,7 +5,6 @@ import style from "./style.module.scss";
 function LocationCity(props) {
     //props получаемые из родительского компонента
     const {data} = props;
-    console.log(data)
     //получаем иконку погоды
     let iconUrl;
     if(data) {
@@ -34,11 +33,7 @@ function LocationCity(props) {
                         </h3>
                         <div className={style.location__weather}>
                             <div className={style.location__main}>
-                                <span className={style.location__temp}>
-                                    {Math.round(data.data.list[0].main.temp)}
-
-                                    &deg;
-                                </span>
+                                <span className={style.location__temp}>{Math.round(data.data.list[0].main.temp)} &deg;C</span>
                                 <span className={style.location__icon}>
                                     <img src={iconUrl} alt={data.data.list[0].weather[0].description} />
                                 </span>
@@ -46,7 +41,7 @@ function LocationCity(props) {
                             <div className={style.location__details}>
                                 <span className={style.location__item}>{data.data.list[0].weather[0].description}</span>
                                 <span className={style.location__item}>Ощущается как:
-                                    <span>{Math.round(data.data.list[0].main.feels_like)} &deg;</span>
+                                    <span>{Math.round(data.data.list[0].main.feels_like)} &deg;C</span>
                                 </span>
                                 <span className={style.location__item}>влажность:
                                     <span>{data.data.list[0].main.humidity} %</span>

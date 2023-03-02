@@ -1,16 +1,17 @@
 import './App.scss';
-import {useState} from "react";
+import React, {useState} from "react";
 import Header from "./Components/header/header";
 import LocationCity from "./Components/location/location";
 import Week from "./Components/week/week";
+import style from "./Components/location/style.module.scss";
 
 function App() {
     //заводим состояние для локации
-    const [weather, setWeather] = useState('');
+    const [weather, setWeather] = useState(null);
 
     //меняем значение, в зависимости от ответа сервера
     const myWeather = (data) => {
-        setWeather(data)
+        setWeather(data);
     }
 
     return (
@@ -18,10 +19,18 @@ function App() {
             <Header
                 myWaether={myWeather}
             />
-            <LocationCity
+            {weather !== null ? (<div>
+                <h3>{weather.city}</h3>
+                <h3>{weather.city}</h3>
+                <h3>{weather.city}</h3>
+            </div>) : null }
+            {weather && weather.isOneDay ?
+                (<LocationCity
                 data={weather}
-            />
-
+            />) : (<Week
+                    data={weather}
+                />)
+            }
         </div>
     );
 }
