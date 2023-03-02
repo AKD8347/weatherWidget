@@ -2,15 +2,15 @@ import './App.scss';
 import {useState} from "react";
 import Header from "./Components/header/header";
 import LocationCity from "./Components/location/location";
+import Week from "./Components/week/week";
 
 function App() {
     //заводим состояние для локации
-    const [myCity, setCity] = useState('');
+    const [weather, setWeather] = useState('');
 
     //меняем значение, в зависимости от ответа сервера
     const myWeather = (data) => {
-        // console.log(data)
-        setCity(data)
+        setWeather(data)
     }
 
     return (
@@ -19,8 +19,9 @@ function App() {
                 myWaether={myWeather}
             />
             <LocationCity
-                data={myCity}
+                data={weather}
             />
+
         </div>
     );
 }

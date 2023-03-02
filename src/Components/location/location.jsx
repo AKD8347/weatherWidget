@@ -5,7 +5,6 @@ import style from "./style.module.scss";
 function LocationCity(props) {
     //props получаемые из родительского компонента
     const {data} = props;
-    console.log(data);
     //получаем иконку погоды
     let iconUrl;
     if(data) {

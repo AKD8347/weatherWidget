@@ -7,6 +7,7 @@ function Header({myWaether}) {
     const keyWeather = 'd925d52adb9fbe2436832c756642ec13';
     //api.opencagedata.com
     const keyGeodata = '03ffaf043c004b47a1958e57654e54ca';
+
     // действия при изменении города в поле ввода
     const [city, setCity] = useState('');
 
@@ -25,6 +26,8 @@ function Header({myWaether}) {
                     long: data.longitude,
                     keyWeather
                 })
+            }).catch(error => {
+                console.log(error);
             })
     }
 
@@ -42,6 +45,7 @@ function Header({myWaether}) {
                     long: data.results[0].geometry.lng,
                     keyWeather
                 })
+
             }).catch(error => {
                 console.log(error);
             })
@@ -52,13 +56,12 @@ function Header({myWaether}) {
         let val = event.target.value;
         const url = new URL(`https://api.opencagedata.com/geocode/v1/json?q=${val}&key=${keyGeodata}&language=ru&pretty=1`);
         if (event.key === 'Enter') {
-           getGeo(url);
+            getGeo(url);
         }
     }
 
     //по клику на кнопку поиска
     function submitCity() {
-        // console.log(city);
         const url = new URL(`https://api.opencagedata.com/geocode/v1/json?q=${city}&key=${keyGeodata}&language=ru&pretty=1`);
         getGeo(url);
     }
@@ -66,8 +69,8 @@ function Header({myWaether}) {
     //получение погоды
     async function getWeather(location) {
         // console.log(location)
-        let lat = '45.0392674';
-        let long = '38.987221'
+        let lat = '59.9387';
+        let long = '30.3162'
         const url = new URL(`https://api.openweathermap.org/data/2.5/weather?&units=metric`);
 
         if (location) {
@@ -91,14 +94,52 @@ function Header({myWaether}) {
                     });
                 } else {
                     myWaether({
-                        city: 'Краснодар',
-                        region: 'Краснодарский край',
+                        city: 'Санкт-Петербург',
+                        region: 'Северо-Западный федеральный округ',
                         country: 'Россия',
                         data: data
                     });
                 }
+            }).catch(error => {
+                console.log(error);
             })
     }
+
+    //получение погоды за неделю
+    // async function getWeekWeather(location) {
+    //     // console.log(location)
+    //     let lat = '59.9387';
+    //     let long = '30.3162'
+    //     const url = new URL(`https://api.openweathermap.org/data/2.5/forecast?&units=metric&&exclude=daily`);
+    //
+    //     if (!location) {
+    //         lat = location.lat;
+    //         long = location.long;
+    //     }
+    //     url.searchParams.append('lat', lat);
+    //     url.searchParams.append('lon', long);
+    //     url.searchParams.append('lang', 'ru')
+    //     url.searchParams.append('APPID', keyWeather);
+    //     await fetch(url.toString())
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             if (location) {
+    //                 weekWeather({
+    //                     city: location.city,
+    //                     region: location.region,
+    //                     country: location.country,
+    //                     data: data
+    //                 });
+    //             } else {
+    //                 weekWeather({
+    //                     city: 'Санкт-Петербург',
+    //                     region: 'Северо-Западный федеральный округ',
+    //                     country: 'Россия',
+    //                     data: data
+    //                 });
+    //             }
+    //         })
+    // }
 
     return (
         <header className={style.header}>
