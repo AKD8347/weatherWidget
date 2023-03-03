@@ -3,7 +3,7 @@ import style from "./style.module.scss";
 
 function Day(props) {
 
-    const {day, index} = props;
+    const {day} = props;
 
     let iconUrl;
     if (day) {

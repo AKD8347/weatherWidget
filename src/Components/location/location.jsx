@@ -26,11 +26,6 @@ function LocationCity(props) {
                 (  <div className={style.location__wrapper}> </div>)
                 :
                 ( <div className={style.location__wrapper}>
-                        <h3 className={style.location__title}>
-                            <span>{data.city},</span>
-                            { data.region === undefined ? ( <span>   </span>  ) : ( <span>{data.region},</span> ) }
-                            <span>{data.country}</span>
-                        </h3>
                         <div className={style.location__weather}>
                             <div className={style.location__main}>
                                 <span className={style.location__temp}>{Math.round(data.data.list[0].main.temp)} &deg;C</span>

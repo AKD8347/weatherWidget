@@ -42,7 +42,6 @@
   flex-wrap: wrap;
   width: 100%;
   height: 100vh;
-  //height: 100%;
   background-color: #282c34;
   background-blend-mode: overlay;
   background-image: url('./images/bg.jpg');
@@ -51,4 +50,44 @@
   background-size: cover;
   padding: 40px 60px;
   box-sizing: border-box;
+
+  @media screen and (max-width: 660px) {
+    height: 100%;
+  }
+
+  &__descr {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  &__title {
+    display: block;
+    position: relative;
+    float: left;
+    color: white;
+    font-size: 44px;
+    font-weight: 700;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+
+    @media screen and (max-width: 660px) {
+      font-size: 30px;
+    }
+
+    span {
+      display: block;
+      position: relative;
+      float: left;
+      width: 100%;
+      text-align: center;
+
+      @media screen and (max-width: 660px) {
+        text-align: left;
+      }
+    }
+  }
 }

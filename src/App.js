@@ -3,7 +3,6 @@ import React, {useState} from "react";
 import Header from "./Components/header/header";
 import LocationCity from "./Components/location/location";
 import Week from "./Components/week/week";
-import style from "./Components/location/style.module.scss";
 
 function App() {
     //заводим состояние для локации
@@ -11,6 +10,7 @@ function App() {
 
     //меняем значение, в зависимости от ответа сервера
     const myWeather = (data) => {
+        console.log(data)
         setWeather(data);
     }
 
@@ -19,17 +19,25 @@ function App() {
             <Header
                 myWaether={myWeather}
             />
-            {weather !== null ? (<div>
-                <h3>{weather.city}</h3>
-                <h3>{weather.city}</h3>
-                <h3>{weather.city}</h3>
-            </div>) : null }
+            {weather !== null ? (
+                <div className="wrapper__descr">
+                    <h3 className="wrapper__title">
+                        {weather.city === undefined ? null : (<span>{weather.city},</span>)}
+                        {weather.region === undefined ? null : (<span>{weather.region},</span>)}
+                        {weather.country === undefined ? null : (<span>{weather.country}</span>)}
+                    </h3>
+                </div>
+            ) : null}
             {weather && weather.isOneDay ?
-                (<LocationCity
-                data={weather}
-            />) : (<Week
-                    data={weather}
-                />)
+                (
+                    <LocationCity
+                        data={weather}
+                    />
+                ) : (
+                    <Week
+                        data={weather}
+                    />
+                )
             }
         </div>
     );
