@@ -2,7 +2,7 @@ import React from "react";
 import Day from '../day/day'
 import style from "./style.module.scss";
 
-function Week(props) {
+function WeatherWeek(props) {
     //props получаемые из родительского компонента
     const {data} = props;
     // console.log(data)
@@ -31,4 +31,4 @@ function Week(props) {
 
 }
 
-export default Week
+export default WeatherWeek

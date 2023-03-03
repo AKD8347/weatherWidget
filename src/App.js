@@ -1,8 +1,8 @@
 import './App.scss';
 import React, {useState} from "react";
 import Header from "./Components/header/header";
-import LocationCity from "./Components/location/location";
-import Week from "./Components/week/week";
+import WeatherDay from "./Components/location/WeatherDay";
+import WeatherWeek from "./Components/week/WeatherWeek";
 
 function App() {
     //заводим состояние для локации
@@ -30,11 +30,11 @@ function App() {
             ) : null}
             {weather && weather.isOneDay ?
                 (
-                    <LocationCity
+                    <WeatherDay
                         data={weather}
                     />
                 ) : (
-                    <Week
+                    <WeatherWeek
                         data={weather}
                     />
                 )

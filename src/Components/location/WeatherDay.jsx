@@ -2,7 +2,7 @@ import React from "react";
 import style from "./style.module.scss";
 
 
-function LocationCity(props) {
+function WeatherDay(props) {
     //props получаемые из родительского компонента
     const {data} = props;
     //получаем иконку погоды
@@ -63,4 +63,4 @@ function LocationCity(props) {
     )
 }
 
-export default LocationCity;
+export default WeatherDay;
