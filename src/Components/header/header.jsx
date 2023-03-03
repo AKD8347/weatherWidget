@@ -1,7 +1,7 @@
 import React from "react";
 import {useState} from "react";
 import style from "./style.module.scss"
-//переменная для
+//переменная для записи локации
 let currentLocation = null;
 
 function Header({myWaether}) {
@@ -13,6 +13,7 @@ function Header({myWaether}) {
     const [city, setCity] = useState('');
     // действие для отображения кнопок
     const [isShowWeatherBtn, setIsShowWeatherBtn] = useState(false);
+
     //определение локации пользователя через сервис ipwho.is
     async function getLocation() {
         const url = 'http://ipwho.is?output=json&lang=ru';
@@ -30,10 +31,9 @@ function Header({myWaether}) {
                     keyWeather
                 }
                 getWeather(false)
-                setIsShowWeatherBtn(true);
             }).catch(error => {
                 console.log(error);
-                setIsShowWeatherBtn(false);
+
             })
     }
 
@@ -43,7 +43,6 @@ function Header({myWaether}) {
             .then(response => response.json())
             .then(data => {
                 const locationInfo = data.results[0];
-
                 currentLocation = {
                     city: locationInfo.components.city,
                     region: locationInfo.components.region,
@@ -75,7 +74,7 @@ function Header({myWaether}) {
     }
 
     //получение погоды
-    async function getWeather(isOneDay) {
+    function getWeather(isOneDay) {
         // console.log(location)
         let lat = '59.9387';
         let long = '30.3162'
@@ -89,7 +88,7 @@ function Header({myWaether}) {
         url.searchParams.append('lon', long);
         url.searchParams.append('lang', 'ru')
         url.searchParams.append('APPID', keyWeather);
-        await fetch(url.toString())
+        fetch(url.toString())
             .then(response => response.json())
             .then(data => {
                 // console.log(data);
@@ -101,6 +100,7 @@ function Header({myWaether}) {
                         data,
                         isOneDay
                     });
+                    setIsShowWeatherBtn(true);
                 } else {
                     myWaether({
                         city: 'Санкт-Петербург',
@@ -109,10 +109,12 @@ function Header({myWaether}) {
                         data,
                         isOneDay
                     });
+                    setIsShowWeatherBtn(true);
                 }
             }).catch(error => {
-                console.log(error);
-            })
+            console.log(error);
+            setIsShowWeatherBtn(false);
+        })
     }
 
     return (

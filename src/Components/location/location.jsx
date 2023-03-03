@@ -22,8 +22,7 @@ function LocationCity(props) {
 
     return (
         <div className={style.location}>
-            { !data ?
-                (  <div className={style.location__wrapper}> </div>)
+            { !data ? null
                 :
                 ( <div className={style.location__wrapper}>
                         <div className={style.location__weather}>
